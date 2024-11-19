@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Customer } from '../customer/customer.types';
-import { ApiService } from '../shared/services/api.service';
-import { BasketItem } from './basket.types';
+import { BasketService } from './basket.service';
 
 @Component({
   selector: 'app-basket',
@@ -11,25 +10,21 @@ import { BasketItem } from './basket.types';
 export class BasketComponent {
   protected customer: Customer = { name: '', address: '', creditCard: '' };
 
-  protected basketItems: BasketItem[] = [];
+  private basketService = inject(BasketService);
 
-  protected get basketTotal(): number {
-    return this.basketItems.reduce((total, { price }) => total + price, 0);
-  }
+  protected basketItems = this.basketService.items;
+  protected numberOfItems = this.basketService.numberOfItems;
+  protected basketTotal = this.basketService.total;
 
-  constructor(
-    private apiService: ApiService,
-    private router: Router,
-  ) {
-    this.apiService.getBasket().subscribe((basketItems) => (this.basketItems = basketItems));
+  constructor(private router: Router) {
+    this.basketService.fetch().subscribe();
   }
 
   protected checkout(event: Event): void {
     event.stopPropagation();
     event.preventDefault();
 
-    this.apiService.checkoutBasket(this.customer).subscribe(() => {
-      this.basketItems = [];
+    this.basketService.checkout(this.customer).subscribe(() => {
       this.router.navigate(['']);
     });
   }

@@ -1,5 +1,5 @@
-import { Component, Inject } from '@angular/core';
-import { BasketItem } from '../basket/basket.types';
+import { Component, inject, Inject } from '@angular/core';
+import { BasketService } from '../basket/basket.service';
 import { Product } from '../product/product.types';
 import { ApiService } from '../shared/services/api.service';
 
@@ -10,27 +10,24 @@ import { ApiService } from '../shared/services/api.service';
 export class CatalogComponent {
   protected products: Product[] = [];
 
+  private basketService = inject(BasketService);
+
   protected get isStockEmpty(): boolean {
     return this.products.every(({ stock }) => stock === 0);
   }
 
-  private basketItems: BasketItem[] = [];
-
-  protected get basketTotal(): number {
-    return this.basketItems.reduce((total: number, { price }) => total + price, 0);
-  }
+  protected basketTotal = this.basketService.total;
 
   constructor(
     @Inject('WELCOME_MSG') protected welcomeMsg: string,
     private apiService: ApiService,
   ) {
     this.apiService.getProducts().subscribe((products) => (this.products = products));
-    this.apiService.getBasket().subscribe((basketItems) => (this.basketItems = basketItems));
+    this.basketService.fetch().subscribe();
   }
 
   protected addToBasket(product: Product): void {
-    this.apiService.addToBasket(product.id).subscribe((basketItem) => {
-      this.basketItems.push(basketItem);
+    this.basketService.addItem(product.id).subscribe(() => {
       this.decreaseStock(product);
     });
   }
