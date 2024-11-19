@@ -1,11 +1,16 @@
+import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { Component, inject, Inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { BasketService } from '../basket/basket.service';
+import { ProductComponent } from '../product/product.component';
 import { Product } from '../product/product.types';
 import { ApiService } from '../shared/services/api.service';
 
 @Component({
   selector: 'app-catalog',
   templateUrl: './catalog.component.html',
+  standalone: true,
+  imports: [RouterLink, NgFor, NgIf, ProductComponent, CurrencyPipe],
 })
 export class CatalogComponent {
   protected products: Product[] = [];

@@ -1,9 +1,12 @@
+import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Customer } from '../customer/customer.types';
 import { BasketService } from './basket.service';
 
 @Component({
+  standalone: true,
+  imports: [CurrencyPipe, NgIf, NgFor],
   selector: 'app-basket',
   templateUrl: './basket.component.html',
 })
