@@ -2,11 +2,12 @@ import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Customer } from '../customer/customer.types';
+import { BasketFormComponent } from './basket-form.component';
 import { BasketService } from './basket.service';
 
 @Component({
   standalone: true,
-  imports: [CurrencyPipe, NgIf, NgFor],
+  imports: [CurrencyPipe, NgIf, NgFor, BasketFormComponent],
   selector: 'app-basket',
   templateUrl: './basket.component.html',
 })
@@ -23,10 +24,7 @@ export class BasketComponent {
     this.basketService.fetch().subscribe();
   }
 
-  protected checkout(event: Event): void {
-    event.stopPropagation();
-    event.preventDefault();
-
+  protected checkout(): void {
     this.basketService.checkout(this.customer).subscribe(() => {
       this.router.navigate(['']);
     });
