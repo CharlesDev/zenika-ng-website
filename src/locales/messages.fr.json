@@ -1,0 +1,10 @@
+{
+  "locale": "fr",
+  "translations": {
+    "Catalog.Basket": "Votre panier s'élève à {$INTERPOLATION}",
+    "Catalog.SeeBasket": "Voir mon panier",
+    "Catalog.title": "Catalogue",
+    "Catalog.EmptyStock": "Désolé, notre stock est vide !",
+    "Product.AddToBasket": "Ajoutez au panier"
+  }
+}

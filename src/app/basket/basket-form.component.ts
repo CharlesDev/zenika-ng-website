@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-basket-form',
@@ -10,9 +10,9 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class BasketFormComponent {
   form = new FormGroup({
-    name: new FormControl(''),
-    address: new FormControl(''),
-    creditCard: new FormControl(''),
+    name: new FormControl('', [Validators.required]),
+    address: new FormControl('', [Validators.required]),
+    creditCard: new FormControl('', [Validators.required, Validators.pattern(/^\d{3}-\d{3}$/)]),
   });
 
   protected checkout(event: Event): void {
