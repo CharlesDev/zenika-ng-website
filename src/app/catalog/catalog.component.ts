@@ -4,7 +4,6 @@ import { RouterLink } from '@angular/router';
 import { BasketService } from '../basket/basket.service';
 import { ProductComponent } from '../product/product.component';
 import { Product } from '../product/product.types';
-import { ApiService } from '../shared/services/api.service';
 
 @Component({
   selector: 'app-catalog',
@@ -23,11 +22,7 @@ export class CatalogComponent {
 
   protected basketTotal = this.basketService.total;
 
-  constructor(
-    @Inject('WELCOME_MSG') protected welcomeMsg: string,
-    private apiService: ApiService,
-  ) {
-    this.apiService.getProducts().subscribe((products) => (this.products = products));
+  constructor(@Inject('WELCOME_MSG') protected welcomeMsg: string) {
     this.basketService.fetch().subscribe();
   }
 

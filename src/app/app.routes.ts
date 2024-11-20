@@ -1,20 +1,26 @@
 import { Routes } from '@angular/router';
-import { BasketComponent } from './basket/basket.component';
+import { catalogResolver } from './catalog-resolver/catalog-resolver.resolver';
 import { CatalogComponent } from './catalog/catalog.component';
-import { ProductDetailsComponent } from './product-details/product-details.component';
 import { PRODUCT_DETAILS_PARAM_KEY } from './product-details/product-details.config';
 
 export const routes: Routes = [
   {
     path: '',
     component: CatalogComponent,
+    resolve: {
+      catalog: catalogResolver,
+    },
   },
   {
     path: 'basket',
-    component: BasketComponent,
+    loadComponent: () => import('./basket/basket.component'),
   },
   {
     path: `products/:${PRODUCT_DETAILS_PARAM_KEY}`,
-    component: ProductDetailsComponent,
+    loadComponent: () => import('./product-details/product-details.component'),
+  },
+  {
+    path: '**',
+    loadComponent: () => import('./not-found-component/not-found-component.component'),
   },
 ];

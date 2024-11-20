@@ -23,3 +23,5 @@ export class ProductDetailsComponent {
       .subscribe((product) => (this.product = product));
   }
 }
+
+export default ProductDetailsComponent;
